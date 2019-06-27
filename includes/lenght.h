@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5.c                                              :+:      :+:    :+:   */
+/*   lenght.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/27 05:17:49 by sgusache         ###   ########.fr       */
+/*   Created: 2019/05/04 04:52:47 by sgusache          #+#    #+#             */
+/*   Updated: 2019/06/21 01:03:38 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/header.h"
+#ifndef LENGHT_H
+# define LENGHT_H
+# define NUM_LENGHT 8
 
-void	mdf_manage(char	**str)
+typedef struct		s_lenght
 {
-	t_ssl *mdf;
+	char	*flag;
+	int		num;
+}					t_lenght;
 
-	mdf = ft_memalloc(sizeof(t_ssl));
-	parse_flag(&mdf, str);
-	//mdf_res(&mdf, str);
-}
+t_lenght		g_arr_leng[NUM_LENGHT] = {
+	{"hh", 1},
+	{"h", 2},
+	{"l", 3},
+	{"ll", 4},
+	{"j", 5},
+	{"z", 6},
+	{"t", 7},
+	{"L", 8}
+};
+
+#endif
