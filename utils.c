@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:26:11 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/27 12:27:51 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/27 22:13:00 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,25 @@ int		check_f(t_ssl **ssl, char *str)
 	while (str[i] != '\0')
 	{
 		if (str[i] == 'p')
-			return (*ssl)->f_p++;
+			return (*ssl)->f_p = i;
 		else if (str[i] == 'q')
-			return (*ssl)->f_q++;
+			return (*ssl)->f_q = i;
 		else if (str[i] == 'r')
-			return (*ssl)->f_r++;
+			return (*ssl)->f_r = i;
 		else if (str[i] == 's')
-			return (*ssl)->f_s++;
+			return (*ssl)->f_s = i;
 		i++;
 	}
 	return 0;
+}
+
+char		*get_str(t_ssl **ssl, char **str)
+{
+	char *s;
+	int i;
+
+	i = 0;
+	s = str[2];
 }
 
 void	parse_flag(t_ssl **ssl, char **str)
@@ -47,7 +56,7 @@ void	parse_flag(t_ssl **ssl, char **str)
 	{
 		if (str[i][0] == '-')
 		{
-			if (check_f(ssl, str[i]))
+			if (((*ssl)->max_f = check_f(ssl, str[i])))
 				i++;
 			else
 				error("invalid  option");

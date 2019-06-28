@@ -11,6 +11,7 @@ typedef struct		s_ssl
 	int				f_r;
 	int				f_s;
 	int				no_f;
+	int				max_f;
 	uint32_t		h0;
 	uint32_t		h1;
 	uint32_t		h2;
@@ -48,6 +49,7 @@ typedef void		(*t_spec_func)(char **str);
 int					get_hash(char *str);
 t_spec_func			get_spec_func(char *specifier);
 void				mdf_manage(char	**str);
+char				*get_str(t_ssl **ssl, char **str);
 void				shatfs_manage(char	**str);
 void				error(char *str);
 void				parse_flag(t_ssl **ssl, char **str);

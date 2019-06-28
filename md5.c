@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/27 17:35:38 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/27 21:11:39 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,16 @@ void	mdf_manage(char	**str)
 	uint8_t *p;
 	mdf = ft_memalloc(sizeof(t_ssl));
 	init(&mdf);
-	unsigned char c[] = "Hello";
+	parse_flag(&mdf, str);
+	unsigned char *c = get_str(mdf, str);
 	md5(c,5, &mdf);
-
 	p=(uint8_t *)&mdf->h0;
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-
 	p=(uint8_t *)&mdf->h1;
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-
 	p=(uint8_t *)&mdf->h2;
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-
 	p=(uint8_t *)&mdf->h3;
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
 	puts("");
-	parse_flag(&mdf, str);
-	//mdf_res(&mdf, str);
 }
