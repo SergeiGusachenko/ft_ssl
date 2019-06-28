@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:26:11 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/24 22:06:02 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:27:51 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int		check_f(t_ssl **ssl, char *str)
 void	parse_flag(t_ssl **ssl, char **str)
 {
 	int i;
-	int res;
 
 	i = 2;
 	while (str[i])
@@ -53,7 +52,7 @@ void	parse_flag(t_ssl **ssl, char **str)
 			else
 				error("invalid  option");
 		}
-		else
+		else if(i == 2 && str[i][0] != '-')
 			(*ssl)->no_f++;
 	}
 }

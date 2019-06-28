@@ -6,11 +6,14 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 20:04:07 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/23 20:04:31 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:03:30 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/header.h"
+
 void	shatfs_manage(char **str)
 {
+	str = NULL;
 	return ;
 }

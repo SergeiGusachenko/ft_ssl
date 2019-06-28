@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 14:55:31 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/26 19:47:22 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:30:08 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int main(int argc, char **argv)
 		else
 			error("Error: invalid command.\n");
 	}
-	error("Usage : {hash_function} [flag] {file_name}\n");
+	else
+		error("Usage : {hash_function} [flag] {file_name}\n");
 	return (0);
 }
