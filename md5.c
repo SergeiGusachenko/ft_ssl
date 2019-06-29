@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   md5.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/27 21:11:39 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/28 19:33:55 by sergeygusac      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdint.h>
 
-void	init(t_ssl **mdf)
+void	init_f(t_ssl **mdf)
 {
 	(*mdf)->f_p = 0;
 	(*mdf)->f_s = 0;
@@ -94,10 +94,11 @@ void	mdf_manage(char	**str)
 {
 	t_ssl *mdf;
 	uint8_t *p;
+	unsigned char *c;
 	mdf = ft_memalloc(sizeof(t_ssl));
-	init(&mdf);
+	init_f(&mdf);
 	parse_flag(&mdf, str);
-	unsigned char *c = get_str(mdf, str);
+	c = file_r(&mdf, str);
 	md5(c,5, &mdf);
 	p=(uint8_t *)&mdf->h0;
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);

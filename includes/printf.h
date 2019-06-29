@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:58:19 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/21 00:52:30 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/28 19:01:46 by sergeygusac      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
+#ifndef PRINTF_H
+# define PRINTF_H
 
 # include <stdio.h>
 # include <stdarg.h>

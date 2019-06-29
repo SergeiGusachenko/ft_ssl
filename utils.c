@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:26:11 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/27 22:13:00 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/28 19:40:59 by sergeygusac      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@ int		check_f(t_ssl **ssl, char *str)
 	return 0;
 }
 
-char		*get_str(t_ssl **ssl, char **str)
-{
-	char *s;
-	int i;
-
-	i = 0;
-	s = str[2];
-}
-
 void	parse_flag(t_ssl **ssl, char **str)
 {
 	int i;
@@ -63,5 +54,6 @@ void	parse_flag(t_ssl **ssl, char **str)
 		}
 		else if(i == 2 && str[i][0] != '-')
 			(*ssl)->no_f++;
+		i++;
 	}
 }

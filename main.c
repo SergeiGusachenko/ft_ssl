@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 14:55:31 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/27 21:11:27 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/28 19:40:19 by sergeygusac      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int get_hash(char *str)
 		i++;
 	}
 	sum = sum / 7;
-	return (sum % NUM_SPEC);
+	return (sum % NUM_F);
 }
 
 int main(int argc, char **argv)
 {
-	t_spec_func func;
+	t_s_func func;
 
 	int i = get_hash("md5");
 	i = get_hash("me5");
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	func = NULL;
 	if (argc > 1)
 	{
-		func = get_spec_func(argv[1]);
+		func = get_s_func(argv[1]);
 		if(func != NULL)
 			func(argv);
 		else

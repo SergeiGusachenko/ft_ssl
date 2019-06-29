@@ -1,9 +1,11 @@
 #ifndef HEADER_H
 # define HEADER_H
+# define NUM_F 100
 # include "../libft/libft.h"
+# include "printf.h"
 # include <stdint.h>
-# define NUM_SPEC 100
 # define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
+# define BUFFSIZE	(int)(5 * 1e5)
 typedef struct		s_ssl
 {
 	int				f_p;
@@ -45,11 +47,11 @@ static		uint32_t g_k[64] = {
 		0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1,
 		0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391};
 
-typedef void		(*t_spec_func)(char **str);
+typedef void		(*t_s_func)(char **str);
 int					get_hash(char *str);
-t_spec_func			get_spec_func(char *specifier);
+t_s_func			get_s_func(char *specifier);
 void				mdf_manage(char	**str);
-char				*get_str(t_ssl **ssl, char **str);
+unsigned char		*file_r(t_ssl **ssl, char **str);
 void				shatfs_manage(char	**str);
 void				error(char *str);
 void				parse_flag(t_ssl **ssl, char **str);
