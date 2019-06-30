@@ -5,6 +5,9 @@
 # include "printf.h"
 # include <stdint.h>
 # include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
 # define BUFFSIZE	(int)(5 * 1e3)
@@ -16,6 +19,7 @@ typedef struct		s_ssl
 	int				f_s;
 	int				no_f;
 	int				max_f;
+	char			*file_n;
 	size_t			msg_len;
 	uint32_t		h0;
 	uint32_t		h1;

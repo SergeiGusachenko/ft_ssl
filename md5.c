@@ -6,15 +6,11 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/30 06:21:31 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/30 16:56:04 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
 
 void	init_f(t_ssl **mdf)
 {
@@ -32,6 +28,21 @@ void	init_f(t_ssl **mdf)
 	(*mdf)->b = 0xefcdab89;
 	(*mdf)->c = 0x98badcfe;
 	(*mdf)->d = 0x10325476;
+}
+
+void	print_msg(t_ssl *mdf)
+{
+	uint8_t *p;
+
+	p=(uint8_t *)&mdf->h0;
+	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
+	p=(uint8_t *)&mdf->h1;
+	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
+	p=(uint8_t *)&mdf->h2;
+	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
+	p=(uint8_t *)&mdf->h3;
+	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
+	ft_printf("\n");
 }
 
 void	mdf_main(t_ssl **mdf, uint32_t *w)
@@ -74,7 +85,7 @@ void	md5(unsigned char*initial_msg, t_ssl **mdf)
 	offset = 0;
 	w = NULL;
 	int new_len;
-	for(new_len = initial_len*8 + 1; new_len%512!=448; new_len++);
+	for (new_len = initial_len*8 + 1; new_len%512!=448; new_len++);
 	new_len /= 8;
 	msg = ft_memalloc(new_len + 64);
 	ft_memcpy(msg, initial_msg, initial_len);
@@ -96,19 +107,11 @@ void	md5(unsigned char*initial_msg, t_ssl **mdf)
 void	mdf_manage(char	**str)
 {
 	t_ssl *mdf;
-	uint8_t *p;
 	unsigned char *c;
 	mdf = ft_memalloc(sizeof(t_ssl));
 	init_f(&mdf);
-	parse_flag(&mdf, str);
 	c = file_r(&mdf, str);
 	md5(c, &mdf);
-	p=(uint8_t *)&mdf->h0;
-	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	p=(uint8_t *)&mdf->h1;
-	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	p=(uint8_t *)&mdf->h2;
-	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	p=(uint8_t *)&mdf->h3;
-	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
+	print_msg(mdf);
+	free(mdf);
 }

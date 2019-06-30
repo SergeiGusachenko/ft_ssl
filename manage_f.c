@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 14:50:41 by sergeygusac       #+#    #+#             */
-/*   Updated: 2019/06/30 06:22:30 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/06/30 16:57:19 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ char	*read_file(t_ssl **ssl, char *str)
 	fd = 0;
 	fd = open(str, O_RDONLY);
 	temp = ft_strnew(1);
-	if(fd < 0)
+	if (fd < 0)
 	{
 		ft_printf("%s :No such file or directory",str);
 		error("");
 	}
+	(*ssl)->file_n = str;
 	while ((num_r = read(fd, &buff, BUFFSIZE)) > 0)
 	{
 		buff[num_r] = '\0';
 		temp = ft_update(temp, ft_strjoin(temp, buff));
 		(*ssl)->msg_len+=num_r;
 	}
+	ft_printf("MD5 (%s) = ", str);
 	return (temp);
 }
 
@@ -47,8 +49,9 @@ unsigned char		*file_r(t_ssl **ssl, char **str)
 	s = str[2];
 	while(s[i])
 	{
-		if(s[i] != '-')
+		if (s[i] != '-')
 			return ((unsigned char*)read_file(ssl, s));
+
 	}
 	return (NULL);
 }

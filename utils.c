@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
+/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:26:11 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/28 19:40:59 by sergeygusac      ###   ########.fr       */
+/*   Updated: 2019/06/30 16:23:23 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
