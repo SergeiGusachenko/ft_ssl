@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+         #
+#    By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/26 18:32:32 by sgusache          #+#    #+#              #
-#    Updated: 2019/06/28 19:00:43 by sergeygusac      ###   ########.fr        #
+#    Updated: 2019/06/30 05:06:36 by sgusache         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ HEADER	= -I ./includes/header.h
 LIB		= ./includes/libftprintf.a
 
 $(NAME): $(SRC)
-	@gcc -Wall -Wextra -Werror -o $(NAME) $(SRC) $(HEADER) $(LIB)
+	@gcc -g -Wall -Wextra -Werror -o $(NAME) $(SRC) $(HEADER) $(LIB)
 
 all: $(NAME)
 

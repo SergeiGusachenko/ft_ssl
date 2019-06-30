@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   md5.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
+/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/28 19:33:55 by sergeygusac      ###   ########.fr       */
+/*   Updated: 2019/06/30 06:21:31 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_f(t_ssl **mdf)
 	(*mdf)->f_r = 0;
 	(*mdf)->f_q = 0;
 	(*mdf)->no_f = 0;
+	(*mdf)->msg_len = 0;
 	(*mdf)->h0 = 0x67452301;
 	(*mdf)->h1 = 0xefcdab89;
 	(*mdf)->h2 = 0x98badcfe;
@@ -62,12 +63,14 @@ void	mdf_main(t_ssl **mdf, uint32_t *w)
 	}
 }
 
-void	md5(unsigned char*initial_msg, size_t initial_len, t_ssl **mdf)
+void	md5(unsigned char*initial_msg, t_ssl **mdf)
 {
 	uint8_t *msg = NULL;
 	uint32_t *w;
 	int offset;
+	size_t initial_len;
 
+	initial_len = (*mdf)->msg_len;
 	offset = 0;
 	w = NULL;
 	int new_len;
@@ -99,7 +102,7 @@ void	mdf_manage(char	**str)
 	init_f(&mdf);
 	parse_flag(&mdf, str);
 	c = file_r(&mdf, str);
-	md5(c,5, &mdf);
+	md5(c, &mdf);
 	p=(uint8_t *)&mdf->h0;
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
 	p=(uint8_t *)&mdf->h1;
@@ -108,5 +111,4 @@ void	mdf_manage(char	**str)
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
 	p=(uint8_t *)&mdf->h3;
 	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	puts("");
 }

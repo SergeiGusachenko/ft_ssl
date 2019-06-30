@@ -4,8 +4,10 @@
 # include "../libft/libft.h"
 # include "printf.h"
 # include <stdint.h>
+# include <fcntl.h>
+# include <unistd.h>
 # define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
-# define BUFFSIZE	(int)(5 * 1e5)
+# define BUFFSIZE	(int)(5 * 1e3)
 typedef struct		s_ssl
 {
 	int				f_p;
@@ -14,6 +16,7 @@ typedef struct		s_ssl
 	int				f_s;
 	int				no_f;
 	int				max_f;
+	size_t			msg_len;
 	uint32_t		h0;
 	uint32_t		h1;
 	uint32_t		h2;
@@ -51,6 +54,7 @@ typedef void		(*t_s_func)(char **str);
 int					get_hash(char *str);
 t_s_func			get_s_func(char *specifier);
 void				mdf_manage(char	**str);
+char				*read_file(t_ssl **ssl, char *str);
 unsigned char		*file_r(t_ssl **ssl, char **str);
 void				shatfs_manage(char	**str);
 void				error(char *str);

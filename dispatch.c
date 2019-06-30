@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
+/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 18:30:44 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/28 19:39:21 by sergeygusac      ###   ########.fr       */
+/*   Updated: 2019/06/30 04:53:40 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
+/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 14:55:31 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/28 19:40:19 by sergeygusac      ###   ########.fr       */
+/*   Updated: 2019/06/30 04:54:15 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
 
-int get_hash(char *str)
+int		get_hash(char *str)
 {
 	int		i;
 	int		sum;
