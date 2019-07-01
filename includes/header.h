@@ -32,7 +32,7 @@ typedef struct		s_ssl
 }					t_ssl;
 
 static		uint32_t g_r[] = {7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
-							5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
+							5, 9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
 							4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
 							6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21};
 
@@ -56,13 +56,19 @@ static		uint32_t g_k[64] = {
 
 typedef void		(*t_s_func)(char **str);
 int					get_hash(char *str);
+void				get_res(t_ssl **mdf, char **str);
 t_s_func			get_s_func(char *specifier);
+void				m_p(t_ssl **ssl, char *str);
+void				m_s(t_ssl **ssl, char *str, char **arg, int pos);
+int					check_f(t_ssl **ssl, char *str, char **arg, int position);
+void				parse_flag(t_ssl **ssl, char **str);
+void				print_msg(t_ssl *mdf);
 void				mdf_manage(char	**str);
 char				*read_file(t_ssl **ssl, char *str);
 unsigned char		*file_r(t_ssl **ssl, char **str);
 void				shatfs_manage(char	**str);
 void				error(char *str);
-void				parse_flag(t_ssl **ssl, char **str);
 void				mdf_res(t_ssl **mdf, char **str);
+void				md5(unsigned char*initial_msg, t_ssl **mdf);
 
 #endif

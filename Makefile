@@ -6,12 +6,13 @@
 #    By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/26 18:32:32 by sgusache          #+#    #+#              #
-#    Updated: 2019/06/30 05:06:36 by sgusache         ###   ########.fr        #
+#    Updated: 2019/07/01 00:56:53 by sgusache         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= ft_ssl
 SRC	=			dispatch.c\
+				flag_res.c\
 				main.c\
 				md5.c\
 				manage_f.c\

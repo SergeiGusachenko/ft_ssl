@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 14:50:41 by sergeygusac       #+#    #+#             */
-/*   Updated: 2019/06/30 16:57:19 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/01 02:02:41 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ char	*read_file(t_ssl **ssl, char *str)
 	return (temp);
 }
 
-unsigned char		*file_r(t_ssl **ssl, char **str)
-{
-	char *s;
-	int i;
+// unsigned char		*file_r(t_ssl **ssl, char **str)
+// {
+// 	char *s;
+// 	int i;
 
-	i = 0;
-	s = str[2];
-	while(s[i])
-	{
-		if (s[i] != '-')
-			return ((unsigned char*)read_file(ssl, s));
-
-	}
-	return (NULL);
-}
+// 	i = 0;
+// 	s = str[2];
+// 	while(s[i])
+// 	{
+// 		if (s[i] != '-')
+// 			return ((unsigned char*)read_file(ssl, s));
+// 		i++;
+// 	}
+// 	return (NULL);
+// }

@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/30 16:56:04 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/01 02:45:41 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	mdf_main(t_ssl **mdf, uint32_t *w)
 			g = i;
 		} else if (i < 32) {
 			f = ((*mdf)->d & (*mdf)->b) | ((~(*mdf)->d) & (*mdf)->c);
-			g = (5*i + 1) % 16;
+			g = (5 * i + 1) % 16;
 		} else if (i < 48) {
 			f = (*mdf)->b ^ (*mdf)->c ^ (*mdf)->d;
-			g = (3*i + 5) % 16;
+			g = (3 * i + 5) % 16;
 		} else {
 			f = (*mdf)->c ^ ((*mdf)->b | (~(*mdf)->d));
-			g = (7*i) % 16;
+			g = (7 * i) % 16;
 		}
 		uint32_t temp = (*mdf)->d;
 		(*mdf)->d = (*mdf)->c;
@@ -107,11 +107,8 @@ void	md5(unsigned char*initial_msg, t_ssl **mdf)
 void	mdf_manage(char	**str)
 {
 	t_ssl *mdf;
-	unsigned char *c;
 	mdf = ft_memalloc(sizeof(t_ssl));
 	init_f(&mdf);
-	c = file_r(&mdf, str);
-	md5(c, &mdf);
-	print_msg(mdf);
+	get_res(&mdf, str);
 	free(mdf);
 }
