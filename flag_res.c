@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 23:45:36 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/01 04:07:24 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/02 01:01:02 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	m_s(t_ssl **ssl, char *str, char **arg, int pos)
 
 	i = 0;
 	s = NULL;
+	init_h(ssl);
 	while(str[i] != 's')
 		i++;
 	if (str[i + 1] == '\0')
@@ -47,18 +48,23 @@ void	m_s(t_ssl **ssl, char *str, char **arg, int pos)
 			ft_printf("md5: option requires an argument -- s\n");
 			error("usage: md5 [-pqrtx] [-s string] [files ...]\n");
 		}
-		(*ssl)->msg_len = ft_strlen(arg[pos + 1]);
-		md5((unsigned char*)arg[pos + 1], ssl);
-		ft_printf("MD5 (%s) = ",arg[pos + 1]);
+		s = arg[pos + 1];
+		(*ssl)->pos = pos + 1;
+		(*ssl)->msg_len = ft_strlen(s);
+		md5((unsigned char*)s, ssl);
+		if((*ssl)->f_r == 0 && (*ssl)->f_q == 0)
+			ft_printf("MD5 (\"%s\") = ",arg[pos + 1]);
 		print_msg(*ssl);
+		if((*ssl)->f_r > 0 && (*ssl)->f_q == 0)
+			ft_printf("\"%s\"\n", arg[pos + 1]);
 	}
 	else
 	{
 		s = &(str[i + 1]);
 		(*ssl)->msg_len = ft_strlen(s);
 		md5((unsigned char*)s, ssl);
-		ft_printf("MD5 (%s) = ",s);
+		if ((*ssl)->f_q == 0)
+			ft_printf("MD5 (%s) = ",s);
 		print_msg(*ssl);
 	}
-
 }

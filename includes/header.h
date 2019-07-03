@@ -19,6 +19,7 @@ typedef struct		s_ssl
 	int				f_s;
 	int				no_f;
 	int				max_f;
+	int				pos;
 	char			*file_n;
 	size_t			msg_len;
 	uint32_t		h0;
@@ -55,6 +56,8 @@ static		uint32_t g_k[64] = {
 		0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391};
 
 typedef void		(*t_s_func)(char **str);
+void				init_f(t_ssl **mdf);
+void				init_h(t_ssl **mdf);
 int					get_hash(char *str);
 void				get_res(t_ssl **mdf, char **str);
 t_s_func			get_s_func(char *specifier);
@@ -65,7 +68,7 @@ void				parse_flag(t_ssl **ssl, char **str);
 void				print_msg(t_ssl *mdf);
 void				mdf_manage(char	**str);
 char				*read_file(t_ssl **ssl, char *str);
-unsigned char		*file_r(t_ssl **ssl, char **str);
+unsigned char		*file_r(t_ssl **ssl, char *str);
 void				shatfs_manage(char	**str);
 void				error(char *str);
 void				mdf_res(t_ssl **mdf, char **str);

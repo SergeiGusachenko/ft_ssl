@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 14:55:31 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/30 23:06:04 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/02 13:34:27 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int main(int argc, char **argv)
 		if(func != NULL)
 			func(argv);
 		else
-			error("Error: invalid command.\n");
+		{
+			ft_printf("ft_ssl: Error: '%s' is an invalid command \n\n", argv[1]);
+			ft_printf("Standart commands:\nmd5\nsha256\n");
+		}
 	}
 	else
 		error("Usage : {hash_function} [flag] {file_name}\n");

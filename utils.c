@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:26:11 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/01 04:18:56 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/01 22:49:55 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		check_f(t_ssl **ssl, char *str, char **arg, int position)
 
 	i = 1;
 	f = 1;
+	(*ssl)->pos = position;
 	while (str[i] != '\0')
 	{
 		if (str[i] == 'p' && (*ssl)->f_s == 0)
@@ -34,7 +35,7 @@ int		check_f(t_ssl **ssl, char *str, char **arg, int position)
 			return (*ssl)->f_q = i;
 		}
 		else if (str[i] == 'r' && (*ssl)->f_s == 0)
-			return (*ssl)->f_r = i;
+			(*ssl)->f_r = i;
 		else if (str[i] == 's')
 		{
 			m_s(ssl, str, arg, position);
@@ -50,21 +51,27 @@ int		check_f(t_ssl **ssl, char *str, char **arg, int position)
 void	parse_flag(t_ssl **ssl, char **str)
 {
 	int i;
+	unsigned char *c;
 
+	c = NULL;
 	i = 2;
 	while (str[i])
 	{
+		init_h(ssl);
 		if (str[i][0] == '-')
 		{
 			if (((*ssl)->max_f = check_f(ssl, str[i], str, i)))
-				i++;
+				i = (*ssl)->pos;
 			else
 				error("invalid option\n");
 		}
 		else if (str[i][0] != '-')
 		{
-			(*ssl)->no_f++;
-			(*ssl)->file_n = str[i];
+			c = file_r(ssl, str[i]);
+			md5(c, ssl);
+			print_msg(*ssl);
+			if ((*ssl)->f_r > 0)
+				ft_printf(" %s\n", str[i]);
 		}
 		i++;
 	}

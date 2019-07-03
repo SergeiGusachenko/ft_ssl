@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/01 02:45:41 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/02 01:00:13 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ void	init_f(t_ssl **mdf)
 	(*mdf)->d = 0x10325476;
 }
 
+void	init_h(t_ssl **mdf)
+{
+	(*mdf)->msg_len = 0;
+	(*mdf)->h0 = 0x67452301;
+	(*mdf)->h1 = 0xefcdab89;
+	(*mdf)->h2 = 0x98badcfe;
+	(*mdf)->h3 = 0x10325476;
+	(*mdf)->a = 0x67452301;
+	(*mdf)->b = 0xefcdab89;
+	(*mdf)->c = 0x98badcfe;
+	(*mdf)->d = 0x10325476;
+}
+
 void	print_msg(t_ssl *mdf)
 {
 	uint8_t *p;
@@ -42,7 +55,8 @@ void	print_msg(t_ssl *mdf)
 	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
 	p=(uint8_t *)&mdf->h3;
 	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	ft_printf("\n");
+	if(mdf->f_r == 0)
+		ft_printf("\n");
 }
 
 void	mdf_main(t_ssl **mdf, uint32_t *w)
