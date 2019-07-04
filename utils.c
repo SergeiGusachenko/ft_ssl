@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:26:11 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/01 22:49:55 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/03 23:26:40 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,18 @@ void	parse_flag(t_ssl **ssl, char **str)
 				ft_printf(" %s\n", str[i]);
 		}
 		i++;
+	}
+}
+
+void			ft_sha256print_hash(BYTE hash[])
+{
+	int idx;
+
+	idx = 0;
+	while (idx < 32)
+	{
+		printf("%02x", hash[idx]);
+		idx++;
 	}
 }
 
