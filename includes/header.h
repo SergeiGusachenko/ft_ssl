@@ -25,11 +25,13 @@ typedef unsigned int  WORD;             // 32-bit word, change to "long" for 16-
 
 typedef struct
 {
-	BYTE data[64];
-	WORD datalen;
-	unsigned long long bitlen;
-	WORD state[8];
-} SHA256_CTX;
+
+	BYTE				data[64];
+	WORD				datalen;
+	unsigned long long	bitlen;
+	char				*file_n;
+	WORD				state[8];
+}						SHA256_CTX;
 
 static const WORD k_sha[64] = {
 	0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
@@ -44,6 +46,10 @@ static const WORD k_sha[64] = {
 
 typedef struct		s_ssl
 {
+	BYTE				data[64];
+	WORD				datalen;
+	unsigned long long	bitlen;
+	WORD				state[8];
 	int				f_p;
 	int				f_q;
 	int				f_r;
@@ -53,6 +59,7 @@ typedef struct		s_ssl
 	int				pos;
 	char			*file_n;
 	size_t			msg_len;
+	int				algo;
 	uint32_t		h0;
 	uint32_t		h1;
 	uint32_t		h2;
@@ -87,10 +94,11 @@ static		uint32_t g_k[64] = {
 		0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391};
 
 typedef void		(*t_s_func)(char **str);
-void				sha256_init(SHA256_CTX *ctx);
-void				sha256_final(SHA256_CTX *ctx, BYTE hash[]);
-void				sha256_update(SHA256_CTX *ctx, const BYTE data[], size_t len);
-void				sha256_transform(SHA256_CTX *ctx, const BYTE data[]);
+void				sha256_init(t_ssl *ctx);
+void				sha256_final(t_ssl *ctx, unsigned char hash[]);
+void				sha256_update(t_ssl *ctx, const BYTE data[], size_t len);
+void				sha256_transform(t_ssl *ctx, const BYTE data[]);
+void				parse_sha(unsigned char *text, t_ssl *ctx, char **str);
 void				ft_sha256print_hash(BYTE hash[]);
 void				init_f(t_ssl **mdf);
 size_t				byte_len(BYTE buf[]);

@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 23:45:36 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/02 01:01:02 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/04 21:04:36 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,24 @@ void	m_p(t_ssl **ssl, char *str)
 		temp = ft_update(temp, ft_strjoin(temp, buff));
 		(*ssl)->msg_len+=num_r;
 	}
-	md5((unsigned char*)temp, ssl);
-	print_msg(*ssl);
+	if ((*ssl)->algo == 1)
+	{
+		md5((unsigned char*)temp, ssl);
+		print_msg(*ssl);
+	}
+	else
+	{
+			sha256_update(*ssl,(unsigned char*)temp, byte_len((unsigned char*)temp));
+			sha256_final(*ssl, (unsigned char *)buff);
+			ft_sha256print_hash((unsigned char *)buff);
+	}
 }
 
 void	m_s(t_ssl **ssl, char *str, char **arg, int pos)
 {
 	int		i;
 	char	*s;
+	char	buff[BUFFSIZE];
 
 	i = 0;
 	s = NULL;
@@ -51,10 +61,21 @@ void	m_s(t_ssl **ssl, char *str, char **arg, int pos)
 		s = arg[pos + 1];
 		(*ssl)->pos = pos + 1;
 		(*ssl)->msg_len = ft_strlen(s);
-		md5((unsigned char*)s, ssl);
-		if((*ssl)->f_r == 0 && (*ssl)->f_q == 0)
+		if ((*ssl)->algo == 1)
+			md5((unsigned char*)s, ssl);
+		else
+		{
+			sha256_update(*ssl,(unsigned char*)s, byte_len((unsigned char*)s));
+			sha256_final(*ssl, (unsigned char *)buff);
+		}
+		if((*ssl)->f_r == 0 && (*ssl)->f_q == 0 && (*ssl)->algo == 1)
 			ft_printf("MD5 (\"%s\") = ",arg[pos + 1]);
-		print_msg(*ssl);
+		if((*ssl)->f_r == 0 && (*ssl)->f_q == 0 && (*ssl)->algo == 0)
+			ft_printf("SHA256 (\"%s\") = ",arg[pos + 1]);
+		if ((*ssl)->algo == 1)
+			print_msg(*ssl);
+		else
+			ft_sha256print_hash((unsigned char *)buff);
 		if((*ssl)->f_r > 0 && (*ssl)->f_q == 0)
 			ft_printf("\"%s\"\n", arg[pos + 1]);
 	}
@@ -62,9 +83,19 @@ void	m_s(t_ssl **ssl, char *str, char **arg, int pos)
 	{
 		s = &(str[i + 1]);
 		(*ssl)->msg_len = ft_strlen(s);
-		md5((unsigned char*)s, ssl);
-		if ((*ssl)->f_q == 0)
+		if ((*ssl)->algo == 1)
+			print_msg(*ssl);
+		else
+			ft_sha256print_hash((unsigned char *)buff);
+		if ((*ssl)->f_q == 0 && (*ssl)->algo == 1)
+		{
 			ft_printf("MD5 (%s) = ",s);
-		print_msg(*ssl);
+			print_msg(*ssl);
+		}
+		else if((*ssl)->f_q == 0 && (*ssl)->algo == 1)
+		{
+			ft_printf("SHA256 (%s) = ",s);
+			ft_sha256print_hash((unsigned char *)buff);
+		}
 	}
 }

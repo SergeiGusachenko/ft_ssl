@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 14:50:41 by sergeygusac       #+#    #+#             */
-/*   Updated: 2019/07/02 13:35:31 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:40:09 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ char	*read_file(t_ssl **ssl, char *str)
 		temp = ft_update(temp, ft_strjoin(temp, buff));
 		(*ssl)->msg_len += num_r;
 	}
-	if ((*ssl)->f_r == 0 && (*ssl)->f_q == 0)
+	if ((*ssl)->f_r == 0 && (*ssl)->f_q == 0 && (*ssl)->algo == 1)
 		ft_printf("MD5 (\"%s\") = ", str);
+	if ((*ssl)->f_r == 0 && (*ssl)->f_q == 0 && (*ssl)->algo == 0)
+		ft_printf("SHA256 (\"%s\") = ", str);
 	return (temp);
 }
 

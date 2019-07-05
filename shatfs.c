@@ -6,7 +6,7 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 20:04:07 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/03 23:26:41 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/04 20:22:49 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 
 void	shatfs_manage(char **str)
 {
-	BYTE buf[SHA256_BLOCK_SIZE];
-	SHA256_CTX ctx;
-	BYTE text1[] = {"abc"};
+	//BYTE buf[SHA256_BLOCK_SIZE];
+	t_ssl		ctx;
+	BYTE *text;
 
-	str = NULL;
-	sha256_init(&ctx);
-	sha256_update(&ctx, text1, byte_len(text1));
-	sha256_final(&ctx, buf);
-	ft_sha256print_hash(buf);
+	text = NULL;
+	ctx.algo = 0;
+	parse_sha(text, &ctx, str);
+	// sha256_init(&ctx);
+	// sha256_update(&ctx, text, byte_len(text));
+	// sha256_final(&ctx, buf);
+	// ft_sha256print_hash(buf);
 }
 
 size_t		byte_len(BYTE buf[])
@@ -36,7 +38,7 @@ size_t		byte_len(BYTE buf[])
 	return (i);
 }
 
-void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
+void sha256_transform(t_ssl *ctx, const BYTE data[])
 {
 	WORD a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
 
@@ -77,7 +79,7 @@ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
 	ctx->state[7] += h;
 }
 
-void sha256_init(SHA256_CTX *ctx)
+void sha256_init(t_ssl *ctx)
 {
 	ctx->datalen = 0;
 	ctx->bitlen = 0;
@@ -91,7 +93,7 @@ void sha256_init(SHA256_CTX *ctx)
 	ctx->state[7] = 0x5be0cd19;
 }
 
-void sha256_update(SHA256_CTX *ctx, const BYTE data[], size_t len)
+void sha256_update(t_ssl *ctx, const BYTE data[], size_t len)
 {
 	WORD i;
 
@@ -106,7 +108,7 @@ void sha256_update(SHA256_CTX *ctx, const BYTE data[], size_t len)
 	}
 }
 
-void sha256_final(SHA256_CTX *ctx, BYTE hash[])
+void sha256_final(t_ssl *ctx, unsigned char hash[])
 {
 	WORD i;
 
