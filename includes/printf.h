@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergeygusachenko <sergeygusachenko@stud    +#+  +:+       +#+        */
+/*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:58:19 by sgusache          #+#    #+#             */
-/*   Updated: 2019/06/28 19:01:46 by sergeygusac      ###   ########.fr       */
+/*   Updated: 2019/07/07 04:09:44 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

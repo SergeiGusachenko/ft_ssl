@@ -6,124 +6,93 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:27:43 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/04 17:38:41 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/07 02:16:41 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
 
-void	init_f(t_ssl **mdf)
-{
-	(*mdf)->algo = 1;
-	(*mdf)->f_p = 0;
-	(*mdf)->f_s = 0;
-	(*mdf)->f_r = 0;
-	(*mdf)->f_q = 0;
-	(*mdf)->no_f = 0;
-	(*mdf)->msg_len = 0;
-	(*mdf)->h0 = 0x67452301;
-	(*mdf)->h1 = 0xefcdab89;
-	(*mdf)->h2 = 0x98badcfe;
-	(*mdf)->h3 = 0x10325476;
-	(*mdf)->a = 0x67452301;
-	(*mdf)->b = 0xefcdab89;
-	(*mdf)->c = 0x98badcfe;
-	(*mdf)->d = 0x10325476;
-}
-
-void	init_h(t_ssl **mdf)
-{
-	(*mdf)->msg_len = 0;
-	(*mdf)->h0 = 0x67452301;
-	(*mdf)->h1 = 0xefcdab89;
-	(*mdf)->h2 = 0x98badcfe;
-	(*mdf)->h3 = 0x10325476;
-	(*mdf)->a = 0x67452301;
-	(*mdf)->b = 0xefcdab89;
-	(*mdf)->c = 0x98badcfe;
-	(*mdf)->d = 0x10325476;
-}
-
 void	print_msg(t_ssl *mdf)
 {
 	uint8_t *p;
 
-	p=(uint8_t *)&mdf->h0;
+	p = (uint8_t *)&mdf->h0;
 	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	p=(uint8_t *)&mdf->h1;
+	p = (uint8_t *)&mdf->h1;
 	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	p=(uint8_t *)&mdf->h2;
+	p = (uint8_t *)&mdf->h2;
 	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	p=(uint8_t *)&mdf->h3;
+	p = (uint8_t *)&mdf->h3;
 	ft_printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3]);
-	if(mdf->f_r == 0)
+	if (mdf->f_r == 0)
 		ft_printf("\n");
 }
 
 void	mdf_main(t_ssl **mdf, uint32_t *w)
 {
-	int i;
-	uint32_t g;
-	uint32_t f;
+	int			i;
+	uint32_t	g;
+	uint32_t	f;
+	uint32_t	temp;
 
-	for(i = 0; i<64; i++)
+	i = 0;
+	while (i < 64)
 	{
-		if (i < 16) {
-			f = ((*mdf)->b & (*mdf)->c) | ((~(*mdf)->b) & (*mdf)->d);
-			g = i;
-		} else if (i < 32) {
-			f = ((*mdf)->d & (*mdf)->b) | ((~(*mdf)->d) & (*mdf)->c);
-			g = (5 * i + 1) % 16;
-		} else if (i < 48) {
-			f = (*mdf)->b ^ (*mdf)->c ^ (*mdf)->d;
-			g = (3 * i + 5) % 16;
-		} else {
-			f = (*mdf)->c ^ ((*mdf)->b | (~(*mdf)->d));
-			g = (7 * i) % 16;
-		}
-		uint32_t temp = (*mdf)->d;
+		mdf_help(&f, &g, mdf, i);
+		temp = (*mdf)->d;
 		(*mdf)->d = (*mdf)->c;
 		(*mdf)->c = (*mdf)->b;
-		(*mdf)->b = (*mdf)->b + LEFTROTATE(((*mdf)->a + f + g_k[i] + w[g]), g_r[i]);
+		(*mdf)->b = (*mdf)->b +
+		LEFTROTATE(((*mdf)->a + f + g_k[i] + w[g]), g_r[i]);
 		(*mdf)->a = temp;
+		i++;
 	}
 }
 
-void	md5(unsigned char*initial_msg, t_ssl **mdf)
+void	mdf_h(uint32_t *w, t_ssl **mdf, int offset, uint8_t *msg)
 {
-	uint8_t *msg = NULL;
-	uint32_t *w;
-	int offset;
-	size_t initial_len;
+	w = (uint32_t *)(msg + offset);
+	mdf_main(mdf, w);
+	(*mdf)->h0 += (*mdf)->a;
+	(*mdf)->h1 += (*mdf)->b;
+	(*mdf)->h2 += (*mdf)->c;
+	(*mdf)->h3 += (*mdf)->d;
+}
 
-	initial_len = (*mdf)->msg_len;
+void	md5(unsigned char *initial_msg, t_ssl **mdf)
+{
+	uint8_t		*msg;
+	uint32_t	*w;
+	int			offset;
+	int			new_len;
+	uint32_t	bits_len;
+
+	msg = NULL;
 	offset = 0;
+	new_len = (*mdf)->msg_len * 8 + 1;
 	w = NULL;
-	int new_len;
-	for (new_len = initial_len*8 + 1; new_len%512!=448; new_len++);
+	while (new_len % 512 != 448)
+		new_len++;
 	new_len /= 8;
 	msg = ft_memalloc(new_len + 64);
-	ft_memcpy(msg, initial_msg, initial_len);
-	msg[initial_len] = 128;
-	uint32_t bits_len = 8 * initial_len;
+	ft_memcpy(msg, initial_msg, (*mdf)->msg_len);
+	msg[(*mdf)->msg_len] = 128;
+	bits_len = 8 * (*mdf)->msg_len;
 	ft_memcpy(msg + new_len, &bits_len, 4);
-	for (offset=0; offset<new_len; offset += (512/8))
+	while (offset < new_len)
 	{
-		w = (uint32_t *) (msg + offset);
-		mdf_main(mdf, w);
-		(*mdf)->h0 += (*mdf)->a;
-		(*mdf)->h1 += (*mdf)->b;
-		(*mdf)->h2 += (*mdf)->c;
-		(*mdf)->h3 += (*mdf)->d;
+		mdf_h(w, mdf, offset, msg);
+		offset += (512 / 8);
 	}
 	free(msg);
 }
 
-void	mdf_manage(char	**str)
+void	mdf_manage(char **str)
 {
 	t_ssl *mdf;
+
 	mdf = ft_memalloc(sizeof(t_ssl));
 	init_f(&mdf);
-	get_res(&mdf, str);
+	parse_flag(&mdf, str);
 	free(mdf);
 }

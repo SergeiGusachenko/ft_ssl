@@ -6,29 +6,23 @@
 /*   By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 20:04:07 by sgusache          #+#    #+#             */
-/*   Updated: 2019/07/04 20:22:49 by sgusache         ###   ########.fr       */
+/*   Updated: 2019/07/07 04:54:12 by sgusache         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/header.h"
 
-
-void	shatfs_manage(char **str)
+void		shatfs_manage(char **str)
 {
-	//BYTE buf[SHA256_BLOCK_SIZE];
-	t_ssl		ctx;
-	BYTE *text;
+	t_ssl			ctx;
+	unsigned char	*text;
 
 	text = NULL;
 	ctx.algo = 0;
 	parse_sha(text, &ctx, str);
-	// sha256_init(&ctx);
-	// sha256_update(&ctx, text, byte_len(text));
-	// sha256_final(&ctx, buf);
-	// ft_sha256print_hash(buf);
 }
 
-size_t		byte_len(BYTE buf[])
+size_t		byte_len(unsigned char buf[])
 {
 	int i;
 
@@ -38,118 +32,72 @@ size_t		byte_len(BYTE buf[])
 	return (i);
 }
 
-void sha256_transform(t_ssl *ctx, const BYTE data[])
+void		sha256_transform(t_ssl *ctx, const unsigned char data[])
 {
-	WORD a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
+	t_sha	s;
+	int		i;
+	int		j;
 
-	for (i = 0, j = 0; i < 16; ++i, j += 4)
-		m[i] = (data[j] << 24) | (data[j + 1] << 16) | (data[j + 2] << 8) | (data[j + 3]);
-	for ( ; i < 64; ++i)
-		m[i] = SIG1(m[i - 2]) + m[i - 7] + SIG0(m[i - 15]) + m[i - 16];
-
-	a = ctx->state[0];
-	b = ctx->state[1];
-	c = ctx->state[2];
-	d = ctx->state[3];
-	e = ctx->state[4];
-	f = ctx->state[5];
-	g = ctx->state[6];
-	h = ctx->state[7];
-
-	for (i = 0; i < 64; ++i) {
-		t1 = h + EP1(e) + CH(e,f,g) + k_sha[i] + m[i];
-		t2 = EP0(a) + MAJ(a,b,c);
-		h = g;
-		g = f;
-		f = e;
-		e = d + t1;
-		d = c;
-		c = b;
-		b = a;
-		a = t1 + t2;
+	j = 0;
+	i = 0;
+	while (i < 16)
+	{
+		s.m[i] = (data[j] << 24) | (data[j + 1] << 16)
+		| (data[j + 2] << 8) | (data[j + 3]);
+		j += 4;
+		i++;
 	}
-
-	ctx->state[0] += a;
-	ctx->state[1] += b;
-	ctx->state[2] += c;
-	ctx->state[3] += d;
-	ctx->state[4] += e;
-	ctx->state[5] += f;
-	ctx->state[6] += g;
-	ctx->state[7] += h;
+	while (i < 64)
+	{
+		s.m[i] = SIG1(s.m[i - 2]) + s.m[i - 7]
+		+ SIG0(s.m[i - 15]) + s.m[i - 16];
+		i++;
+	}
+	s.a = ctx->state[0];
+	s.b = ctx->state[1];
+	s.c = ctx->state[2];
+	s.d = ctx->state[3];
+	s.e = ctx->state[4];
+	trans_help(ctx, &s, i);
 }
 
-void sha256_init(t_ssl *ctx)
+void		sha256_update(t_ssl *ctx, const unsigned char data[], size_t len)
 {
-	ctx->datalen = 0;
-	ctx->bitlen = 0;
-	ctx->state[0] = 0x6a09e667;
-	ctx->state[1] = 0xbb67ae85;
-	ctx->state[2] = 0x3c6ef372;
-	ctx->state[3] = 0xa54ff53a;
-	ctx->state[4] = 0x510e527f;
-	ctx->state[5] = 0x9b05688c;
-	ctx->state[6] = 0x1f83d9ab;
-	ctx->state[7] = 0x5be0cd19;
-}
+	unsigned int i;
 
-void sha256_update(t_ssl *ctx, const BYTE data[], size_t len)
-{
-	WORD i;
-
-	for (i = 0; i < len; ++i) {
+	i = 0;
+	while (i < len)
+	{
 		ctx->data[ctx->datalen] = data[i];
 		ctx->datalen++;
-		if (ctx->datalen == 64) {
+		if (ctx->datalen == 64)
+		{
 			sha256_transform(ctx, ctx->data);
 			ctx->bitlen += 512;
 			ctx->datalen = 0;
 		}
+		i++;
 	}
 }
 
-void sha256_final(t_ssl *ctx, unsigned char hash[])
+void		sha256_final(t_ssl *ctx, unsigned char hash[])
 {
-	WORD i;
+	unsigned int i;
 
 	i = ctx->datalen;
-
-	// Pad whatever data is left in the buffer.
-	if (ctx->datalen < 56) {
+	if (ctx->datalen < 56)
+	{
 		ctx->data[i++] = 0x80;
 		while (i < 56)
 			ctx->data[i++] = 0x00;
 	}
-	else {
+	else
+	{
 		ctx->data[i++] = 0x80;
 		while (i < 64)
 			ctx->data[i++] = 0x00;
 		sha256_transform(ctx, ctx->data);
 		memset(ctx->data, 0, 56);
 	}
-	// Append to the padding the total message's length in bits and transform.
-	ctx->bitlen += ctx->datalen * 8;
-	ctx->data[63] = ctx->bitlen;
-	ctx->data[62] = ctx->bitlen >> 8;
-	ctx->data[61] = ctx->bitlen >> 16;
-	ctx->data[60] = ctx->bitlen >> 24;
-	ctx->data[59] = ctx->bitlen >> 32;
-	ctx->data[58] = ctx->bitlen >> 40;
-	ctx->data[57] = ctx->bitlen >> 48;
-	ctx->data[56] = ctx->bitlen >> 56;
-	sha256_transform(ctx, ctx->data);
-
-	// Since this implementation uses little endian byte ordering and SHA uses big endian,
-	// reverse all the bytes when copying the final state to the output hash.
-	for (i = 0; i < 4; ++i) {
-		hash[i]      = (ctx->state[0] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 4]  = (ctx->state[1] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 8]  = (ctx->state[2] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 12] = (ctx->state[3] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 16] = (ctx->state[4] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 20] = (ctx->state[5] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 24] = (ctx->state[6] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 28] = (ctx->state[7] >> (24 - i * 8)) & 0x000000ff;
-	}
+	final_h(ctx, hash);
 }
-

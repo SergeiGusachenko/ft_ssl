@@ -6,7 +6,7 @@
 #    By: sgusache <sgusache@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/26 18:32:32 by sgusache          #+#    #+#              #
-#    Updated: 2019/07/01 00:56:53 by sgusache         ###   ########.fr        #
+#    Updated: 2019/07/06 23:37:20 by sgusache         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC	=			dispatch.c\
 				md5.c\
 				manage_f.c\
 				shatfs.c\
+				norm_helpers.c\
 				utils.c
 
 
